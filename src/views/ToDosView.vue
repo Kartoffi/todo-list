@@ -18,12 +18,12 @@
 
 <template>
   <main>
-    <h1 class="green"> Your ToDos for today</h1>
+    <!-- <h1 class="green"> Your ToDos for today</h1> -->
     <!-- <p>What is your favorite food? <input type="text" v-model="food"></p>
     <p>How old are you? <input type="text" v-model="age"></p> -->
     <!-- <form @submit.prevent="add"> -->
     <div>
-      <input type="text" v-model="assignment" placeholder="New Assignment" class="input-task">
+      <input type="text" v-model="assignment" placeholder="New Assignment..." class="input-task">
       <button @click="add" class="add-task"> +</button>
     </div>
     <button @click="show = !show" v-if="show" class="show-list">Hide List</button>
