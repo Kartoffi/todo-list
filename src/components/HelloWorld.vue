@@ -31,4 +31,15 @@ h3 {
 .greetings h3 {
   text-align: center;
 }
+.greetings h1 {
+  font-family: Marker Felt;
+  font-size: 60px;
+  margin-bottom: 0px;
+}
+.greetings h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  margin-top: 0px;
+  margin-bottom: 60px;
+}
 </style>
