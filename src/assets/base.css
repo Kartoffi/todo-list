@@ -1,0 +1,44 @@
+/* semantic color variables for this project */
+:root {
+  --color-background: white;
+  --color-border: grey;
+  --color-text: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: rgb(23, 23, 23);
+    --color-border: rgb(233, 233, 233);
+    --color-text: rgb(233, 233, 233);
+  }
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(85, 85, 85);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(144, 144, 144);
+}
