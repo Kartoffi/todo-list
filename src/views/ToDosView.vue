@@ -94,11 +94,11 @@
 
 <style scoped>
   .input-task {
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 0 10px;
     height: 36px;
     border: none;
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px;
     background-color: rgb(241, 241, 241);
   }
 
@@ -110,7 +110,7 @@
     background-color: #509b00;
     color: white;
     border: none;
-    border-radius: 0px 3px 3px 0px;
+    border-radius: 3px;
     cursor: pointer;
   }
 
@@ -139,7 +139,9 @@
 
  form {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    gap: 1rem;
  }
 
  .group {
