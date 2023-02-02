@@ -1,17 +1,56 @@
 <script setup>
   import { ref } from 'vue';
   import { useFlash } from '../composables/useFlash';
+  let { flash } = useFlash();
   // import { useStorage } from '../composables/useStorage.js';
 
   // let food = useStorage('food');
   // let age = useStorage('age');
   // let comment = ref('test value');
   const assignment = ref('');
-  const show = ref(true);
+  const assignmentTag = ref('');
   const list = ref([]);
+  const tags = ref(["Alle"]);
+  const completed = ref(false);
+  const selectedTag = ref("Alle");
   function add() {
+    for (let i = 0; i < list.value.length; i++) {
+      if (list.value[i].name == assignment.value) {
+        flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
+        return;
+      }
+    }
     if (assignment.value != '') {
-      list.value.push(assignment.value);
+      list.value.push({
+        name: assignment.value,
+        completed: false,
+        id: list.value.length+1,
+        tag: assignmentTag.value,
+      });
+      for (let i = 0; i < tags.value.length; i++) {
+        if (tags.value[i] == assignmentTag.value) {
+          assignment.value = '';
+          assignmentTag.value = '';
+          return;
+        }
+      }
+      tags.value.push(assignmentTag.value);
+      assignment.value = '';
+      assignmentTag.value = '';
+    }
+  }
+  function remove(task) {
+    for (let i = 0; i < list.value.length; i++) {
+      if (list.value[i].name == task.name) {
+        list.value.splice(i, 1);
+      }
+    }
+  }
+  function changeState(task) {
+    for (let i = 0; i < list.value.length; i++) {
+      if (list.value[i].name == task.name) {
+        list.value[i].completed = true;
+      }
     }
   }
 </script>
@@ -22,21 +61,31 @@
     <!-- <p>What is your favorite food? <input type="text" v-model="food"></p>
     <p>How old are you? <input type="text" v-model="age"></p> -->
     <!-- <form @submit.prevent="add"> -->
-    <div>
-      <input type="text" v-model="assignment" placeholder="New Assignment..." class="input-task">
-      <button @click="add" class="add-task"> +</button>
+    <form @submit.prevent="add">
+      <input type="text" v-model="assignment" placeholder="Task (bspw. putzen)" class="input-task">
+      <input type="text" v-model="assignmentTag" placeholder="Kategorie (bspw. Haushalt)" class="input-task">
+      <button class="add-task"> +</button>
+    </form>
+    <div class="buttons-tab">
+      <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
+      <button @click="completed = !completed" v-else class="standard-button">Completed</button>
+      <template v-for="tag of tags">
+        <button class="tag-button" @click="selectedTag = tag"> {{ tag }}</button>
+      </template>
     </div>
-    <button @click="show = !show" v-if="show" class="show-list">Hide List</button>
-    <button @click="show = !show" v-else class="show-list">Show List</button>
     <!-- </form> -->
-
-    <ul v-if="show && list.length">
-      <li v-for="item of list">
-        <label>
-          {{ item }}
-        </label>
-        <input type="checkbox" class="check-box">
-      </li>
+    <ul v-if="list.length">
+      <template v-for="item of list">
+        <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
+          <label :class="completed ? 'completed-task' : ''">
+            {{ item.name }}
+          </label>
+          <div class="group">
+            <input type="checkbox" class="check-box" @click="changeState(item)" v-if="!completed">
+            <button @click="remove(item)" class="remove-task"> x </button>
+          </div>
+        </li>
+      </template>
     </ul>
     <p v-else-if="list.length"></p>
     <p v-else></p>
@@ -69,30 +118,85 @@
     background-color: #64c200;
   }
 
- div {
+  .remove-task {
+    border: none;
+    width: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(225, 58, 58);
+    background: none;
+    opacity: 0;
+    padding: 0;
+  }
+
+  li:hover {
+    border-color: aliceblue;
+  }
+
+  li:hover .remove-task{
+    opacity: 1;
+  }
+
+ form {
     display: flex;
     width: 100%;
  }
 
- .show-list {
+ .group {
+  display: flex;
+  width: unset;
+ }
+
+ .completed-task {
+  text-decoration: line-through;
+ }
+
+ .buttons-tab {
+  margin: 1rem 0rem;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+ }
+
+ .standard-button {
     background-color: #509b00;
     color: white;
     font-weight: bold;
     border:none;
     padding: 10px;
     border-radius: 3px;
-    margin: 1rem 0;
     cursor: pointer;
-    width: 90px;
  }
 
- .show-list:hover {
+ .tag-button {
+    background-color: #659235;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border:none;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+ }
+
+ .tag-button:hover {
+  background-color: #78a746;
+ }
+
+ .standard-button:hover {
     background-color: #64c200;
  }
 
   ul {
     padding-left: 0;
     margin: 0;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; */
   }
 
   li {
@@ -114,7 +218,10 @@
   }
 
   label {
-    max-width: fit-content;
+    /* width: 100%; */
+    /* word-break:normal; */
+    display: inline-block;
+    word-break: break-word;
   }
 
   .check-box {
