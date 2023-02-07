@@ -14,6 +14,9 @@
     for (let i = 0; i < list.length; i++) {
       if (list[i].name == assignment.value) {
         flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
+        assignment.value = '';
+        assignmentTag.value = '';
+        newAssignmentTag.value = '';
         return;
       }
     }
