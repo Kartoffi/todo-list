@@ -1,5 +1,4 @@
 <script setup>
-  import { ref } from 'vue';
   const { item, completed, list, tags, selectedTag  } = defineProps(['item', 'completed', 'list', 'tags', 'selectedTag']);
 
   function remove(task) {
