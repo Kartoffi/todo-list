@@ -12,7 +12,7 @@
   const list = ref([]);
   const tags = ref(["Alle"]);
   const completed = ref(false);
-  const selectedTag = ref("Alle");
+  let selectedTag = ref("Alle");
   function add() {
     for (let i = 0; i < list.value.length; i++) {
       if (list.value[i].name == assignment.value) {
@@ -40,11 +40,20 @@
     }
   }
   function remove(task) {
+    let currentTag = "";
     for (let i = 0; i < list.value.length; i++) {
       if (list.value[i].name == task.name) {
+        currentTag = list.value[i].tag;
         list.value.splice(i, 1);
       }
     }
+    for (let i = 0; i < list.value.length; i++) {
+      if (list.value[i].tag == currentTag) {
+        return;
+      }
+    }
+    tags.value.pop(currentTag);
+    selectedTag = ref("Alle");
   }
   function changeState(task) {
     for (let i = 0; i < list.value.length; i++) {
@@ -57,10 +66,6 @@
 
 <template>
   <main>
-    <!-- <h1 class="green"> Your ToDos for today</h1> -->
-    <!-- <p>What is your favorite food? <input type="text" v-model="food"></p>
-    <p>How old are you? <input type="text" v-model="age"></p> -->
-    <!-- <form @submit.prevent="add"> -->
     <form @submit.prevent="add">
       <input type="text" v-model="assignment" placeholder="Task (bspw. putzen)" class="input-task">
       <input type="text" v-model="assignmentTag" placeholder="Kategorie (bspw. Haushalt)" class="input-task">
@@ -69,13 +74,14 @@
     <div class="buttons-tab">
       <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
       <button @click="completed = !completed" v-else class="standard-button">Completed</button>
-      <template v-for="tag of tags">
-        <button class="tag-button" @click="selectedTag = tag"> {{ tag }}</button>
-      </template>
+      <div v-for="tag of tags">
+        <button class="tag-button"
+          @click="selectedTag = tag"
+          :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
+      </div>
     </div>
-    <!-- </form> -->
     <ul v-if="list.length">
-      <template v-for="item of list">
+      <div v-for="item of list">
         <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
           <label :class="completed ? 'completed-task' : ''">
             {{ item.name }}
@@ -85,7 +91,7 @@
             <button @click="remove(item)" class="remove-task"> x </button>
           </div>
         </li>
-      </template>
+      </div>
     </ul>
     <p v-else-if="list.length"></p>
     <p v-else></p>
@@ -140,6 +146,7 @@
  form {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     gap: 1rem;
  }
@@ -182,6 +189,10 @@
     padding: 10px;
     border-radius: 3px;
     cursor: pointer;
+ }
+
+ .tag-highlight {
+  background-color: #88ba53;
  }
 
  .tag-button:hover {
