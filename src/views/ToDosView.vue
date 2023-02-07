@@ -1,12 +1,8 @@
 <script setup>
   import { ref } from 'vue';
   import { useFlash } from '../composables/useFlash';
+  import Task from '../components/Task.vue';
   let { flash } = useFlash();
-  // import { useStorage } from '../composables/useStorage.js';
-
-  // let food = useStorage('food');
-  // let age = useStorage('age');
-  // let comment = ref('test value');
   const assignment = ref('');
   const newAssignmentTag = ref('');
   let assignmentTag = ref('');
@@ -45,33 +41,6 @@
       assignmentTag.value = '';
     }
   }
-  function remove(task) {
-    let currentTag = "";
-    for (let i = 0; i < list.value.length; i++) {
-      if (list.value[i].name == task.name) {
-        currentTag = list.value[i].tag;
-        list.value.splice(i, 1);
-      }
-    }
-    for (let i = 0; i < list.value.length; i++) {
-      if (list.value[i].tag == currentTag) {
-        return;
-      }
-    }
-    for (let i = 0; i < tags.value.length; i++) {
-      if (tags.value[i] == currentTag) {
-        tags.value.splice(i, 1);
-      }
-    }
-    selectedTag = ref("Alle");
-  }
-  function changeState(task) {
-    for (let i = 0; i < list.value.length; i++) {
-      if (list.value[i].name == task.name) {
-        list.value[i].completed = true;
-      }
-    }
-  }
 </script>
 
 <template>
@@ -102,17 +71,13 @@
       </div>
     </div>
     <ul v-if="list.length">
-      <div v-for="item of list">
-        <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
-          <label :class="completed ? 'completed-task' : ''">
-            {{ item.name }}
-          </label>
-          <div class="group">
-            <input type="checkbox" class="check-box" @click="changeState(item)" v-if="!completed">
-            <button @click="remove(item)" class="remove-task"> x </button>
-          </div>
-        </li>
-      </div>
+      <Task
+        v-for="item of list"
+        :item="item"
+        :selected-tag="selectedTag"
+        :completed="completed"
+        :list="list"
+        :tags="tags"/>
     </ul>
     <p v-else-if="list.length"></p>
     <p v-else></p>
@@ -165,40 +130,12 @@
     background-color: #64c200;
   }
 
-  .remove-task {
-    border: none;
-    width: 30px;
-    font-size: 15px;
-    font-weight: bold;
-    color: rgb(225, 58, 58);
-    background: none;
-    opacity: 0;
-    padding: 0;
-  }
-
-  li:hover {
-    border-color: aliceblue;
-  }
-
-  li:hover .remove-task{
-    opacity: 1;
-  }
-
  form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     gap: 1rem;
- }
-
- .group {
-  display: flex;
-  width: unset;
- }
-
- .completed-task {
-  text-decoration: line-through;
  }
 
  .buttons-tab {
@@ -247,40 +184,5 @@
   ul {
     padding-left: 0;
     margin: 0;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between; */
-  }
-
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-    padding: 1rem;
-    border: 1px solid #75E200;
-    margin: 0.5rem 0rem;
-  }
-
-  li:first-of-type{
-    margin-top: 0;
-  }
-
-  li, li * {
-    cursor: pointer;
-  }
-
-  label {
-    /* width: 100%; */
-    /* word-break:normal; */
-    display: inline-block;
-    word-break: break-word;
-  }
-
-  .check-box {
-    min-width: 18px;
-    height: 18px;
-    margin-left: 1rem;
   }
 </style>
