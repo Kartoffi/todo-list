@@ -2,8 +2,6 @@
   import { ref } from 'vue';
   const { item, completed, list, tags, selectedTag  } = defineProps(['item', 'completed', 'list', 'tags', 'selectedTag']);
 
-  let currentSelectedTag = ref(selectedTag);
-
   function remove(task) {
     let currentTag = "";
     for (let i = 0; i < list.length; i++) {
@@ -22,7 +20,6 @@
         tags.splice(i, 1);
       }
     }
-    currentSelectedTag = ref("Alle");
   }
 
   function changeState(task) {
@@ -35,7 +32,7 @@
 </script>
 <template>
   <div>
-    <li v-if="item.completed == completed && (item.tag == currentSelectedTag || currentSelectedTag == 'Alle')">
+    <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
       <label :class="completed ? 'completed-task' : ''">
         {{ item.name }}
       </label>

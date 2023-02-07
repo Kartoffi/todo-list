@@ -1,51 +1,50 @@
 <script setup>
   import { ref } from 'vue';
-  import { useFlash } from '../composables/useFlash';
-  import Task from '../components/Task.vue';
-  let { flash } = useFlash();
-  const assignment = ref('');
-  const newAssignmentTag = ref('');
-  let assignmentTag = ref('');
+  // import { useFlash } from '../composables/useFlash';
+  import AddTask from '../components/AddTask.vue';
+  import ToDoList from '../components/ToDoList.vue';
+  // let { flash } = useFlash();
+  // const assignment = ref('');
+  // const newAssignmentTag = ref('');
+  // let assignmentTag = ref('');
   const list = ref([]);
   const tags = ref([]);
-  const completed = ref(false);
-  let selectedTag = ref("Alle");
-  function add() {
-    if (newAssignmentTag.value !== '' && assignmentTag.value == '') {
-      assignmentTag.value = newAssignmentTag.value;
-    }
-    for (let i = 0; i < list.value.length; i++) {
-      if (list.value[i].name == assignment.value) {
-        flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
-        return;
-      }
-    }
-    if (assignment.value != '') {
-      list.value.push({
-        name: assignment.value,
-        completed: false,
-        id: list.value.length+1,
-        tag: assignmentTag.value,
-      });
-      for (let i = 0; i < tags.value.length; i++) {
-        if (tags.value[i] == assignmentTag.value) {
-          assignment.value = '';
-          assignmentTag.value = '';
-          newAssignmentTag.value = '';
-          return;
-        }
-      }
-      tags.value.push(assignmentTag.value);
-      assignment.value = '';
-      newAssignmentTag.value = '';
-      assignmentTag.value = '';
-    }
-  }
+  // function add() {
+  //   if (newAssignmentTag.value !== '' && assignmentTag.value == '') {
+  //     assignmentTag.value = newAssignmentTag.value;
+  //   }
+  //   for (let i = 0; i < list.value.length; i++) {
+  //     if (list.value[i].name == assignment.value) {
+  //       flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
+  //       return;
+  //     }
+  //   }
+  //   if (assignment.value != '') {
+  //     list.value.push({
+  //       name: assignment.value,
+  //       completed: false,
+  //       id: list.value.length+1,
+  //       tag: assignmentTag.value,
+  //     });
+  //     for (let i = 0; i < tags.value.length; i++) {
+  //       if (tags.value[i] == assignmentTag.value) {
+  //         assignment.value = '';
+  //         assignmentTag.value = '';
+  //         newAssignmentTag.value = '';
+  //         return;
+  //       }
+  //     }
+  //     tags.value.push(assignmentTag.value);
+  //     assignment.value = '';
+  //     newAssignmentTag.value = '';
+  //     assignmentTag.value = '';
+  //   }
+  // }
 </script>
 
 <template>
   <main>
-    <form @submit.prevent="add">
+    <!-- <form @submit.prevent="add">
       <input type="text" v-model="assignment" placeholder="Task (bspw. putzen)" class="input-task input-categor">
       <div class="inline">
         <input type="text" v-model="newAssignmentTag" placeholder="Kategorie erstellen (bspw. Haushalt)" class="input-task">
@@ -57,8 +56,14 @@
         </select>
       </div>
       <button class="add-task"> Task hinzufügen</button>
-    </form>
-    <div class="buttons-tab">
+    </form> -->
+    <AddTask
+        :list="list"
+        :tags="tags"/>
+    <ToDoList
+      :list="list"
+      :tags="tags"/>
+    <!-- <div class="buttons-tab">
       <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
       <button @click="completed = !completed" v-else class="standard-button">Completed</button>
       <button class="tag-button"
@@ -78,15 +83,15 @@
         :completed="completed"
         :list="list"
         :tags="tags"/>
-    </ul>
-    <p v-else-if="list.length"></p>
-    <p v-else></p>
+    </ul> -->
+    <!-- <p v-else-if="list.length"></p>
+    <p v-else></p> -->
   </main>
 </template>
 
 <style scoped>
 
-  .inline {
+  /* .inline {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -128,17 +133,17 @@
 
   .add-task:hover {
     background-color: #64c200;
-  }
+  } */
 
- form {
+ /* form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     gap: 1rem;
- }
+ } */
 
- .buttons-tab {
+ /* .buttons-tab {
   margin: 1rem 0rem;
   width: 100%;
   display: flex;
@@ -184,5 +189,5 @@
   ul {
     padding-left: 0;
     margin: 0;
-  }
+  } */
 </style>
