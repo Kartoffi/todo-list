@@ -60,7 +60,9 @@
       </div>
       <button class="add-task"> Task hinzufügen</button>
     </form>
-    <img class="arrow" src="../icons/arrow.png" alt="" @click="hidden = !hidden" :class="hidden ? 'rotate-arrow' : ''">
+    <div class="arrow-background" @click="hidden = !hidden" >
+      <img class="arrow" src="../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
+    </div>
   </main>
 </template>
 
@@ -135,11 +137,17 @@
     padding: 1rem;
  }
 
+ .arrow-background {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  cursor: pointer;
+ }
+
  .arrow {
   width: 25px;
   height: auto;
   margin: 1rem 0 0 0;
-  cursor: pointer;
   transition: all 0.2s ease;
  }
 
