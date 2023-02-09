@@ -132,7 +132,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 4rem 0;
+    margin: 2rem 0;
     border: 1px solid #509b00;
     padding: 1rem;
  }

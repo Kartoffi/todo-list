@@ -1,36 +1,42 @@
 <script setup>
   import { ref } from "vue";
   import Task from "./Task.vue";
-  const { list, tags } = defineProps(['list', 'tags']);
-  const completed = ref(false);
+  const { list, tags, title, completed } = defineProps(['list', 'tags', 'title', 'completed']);
   let selectedTag = ref("Alle");
 </script>
 
 <template>
-  <div class="buttons-tab" v-if="list.length">
-    <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
-    <button @click="completed = !completed" v-else class="standard-button">Completed</button>
-    <button class="tag-button"
-        @click="selectedTag = 'Alle'"
-        :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle </button>
-    <div v-for="tag of tags">
+  <main>
+    <h3> {{ title }} </h3>
+    <div class="buttons-tab">
+      <!-- <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
+      <button @click="completed = !completed" v-else class="standard-button">Completed</button> -->
       <button class="tag-button"
-        @click="selectedTag = tag"
-        :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
+          @click="selectedTag = 'Alle'"
+          :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle </button>
+      <div v-for="tag of tags">
+        <button class="tag-button"
+          @click="selectedTag = tag"
+          :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
+      </div>
     </div>
-  </div>
-  <ul v-if="list.length">
-    <Task
-      v-for="item of list"
-      :item="item"
-      :selected-tag="selectedTag"
-      :completed="completed"
-      :list="list"
-      :tags="tags"/>
-  </ul>
+    <ul v-if="list.length">
+      <Task
+        v-for="item of list"
+        :item="item"
+        :selected-tag="selectedTag"
+        :completed="completed"
+        :list="list"
+        :tags="tags"/>
+    </ul>
+  </main>
 </template>
 
 <style scoped>
+
+  main {
+    margin: 3rem 0;
+  }
   .buttons-tab {
   margin: 1rem 0rem;
   width: 100%;
