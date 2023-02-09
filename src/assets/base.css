@@ -5,13 +5,11 @@
   --color-text: black;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: rgb(23, 23, 23);
-    --color-border: rgb(233, 233, 233);
-    --color-text: rgb(233, 233, 233);
-  }
-}
+/* .theme-dark {
+  --color-background: rgb(23, 23, 23);
+  --color-border: rgb(233, 233, 233);
+  --color-text: rgb(233, 233, 233);
+} */
 
 body {
   min-height: 100vh;

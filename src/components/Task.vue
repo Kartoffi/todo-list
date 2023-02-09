@@ -81,7 +81,7 @@
     align-items: center;
     list-style: none;
     padding: 1rem;
-    border: 1px solid #75E200;
+    border: 1px solid #509B00;
     margin: 0.5rem 0rem;
   }
 
@@ -94,7 +94,7 @@
   }
 
   li:hover {
-    border-color: aliceblue;
+    border-color: #88BA53;
   }
 
   li:hover .remove-task{
