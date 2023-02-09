@@ -32,13 +32,13 @@
 <template>
   <div>
     <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
-      <label :class="completed ? 'completed-task' : ''">
-        {{ item.name }}
-      </label>
       <div class="group">
         <input type="checkbox" class="check-box" @click="changeState(item)" v-if="!completed">
-        <button @click="remove(item)" class="remove-task"> x </button>
+        <label :class="completed ? 'completed-task' : ''">
+          {{ item.name }}
+        </label>
       </div>
+      <button @click="remove(item)" class="remove-task"> x </button>
     </li>
   </div>
 </template>
@@ -52,7 +52,6 @@
   .check-box {
     min-width: 18px;
     height: 18px;
-    margin-left: 1rem;
   }
 
   .completed-task {
@@ -73,6 +72,7 @@
   label {
     display: inline-block;
     word-break: break-word;
+    margin-left: 0.5rem;
   }
 
   li {

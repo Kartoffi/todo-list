@@ -6,6 +6,7 @@
   const assignment = ref('');
   const newAssignmentTag = ref('');
   let assignmentTag = ref('');
+  let hidden = ref(false);
 
   function add() {
     if (newAssignmentTag.value !== '' && assignmentTag.value == '') {
@@ -44,7 +45,9 @@
 </script>
 
 <template>
-  <form @submit.prevent="add">
+  <main>
+    <h3 :class="hidden ? 'reset-margin' : ''"> Neuen Task erstellen </h3>
+    <form @submit.prevent="add" v-if="!hidden">
       <input type="text" v-model="assignment" placeholder="Task (bspw. putzen)" class="input-task input-categor">
       <div class="inline">
         <input type="text" v-model="newAssignmentTag" placeholder="Kategorie erstellen (bspw. Haushalt)" class="input-task">
@@ -57,9 +60,19 @@
       </div>
       <button class="add-task"> Task hinzufügen</button>
     </form>
+    <img class="arrow" src="../icons/arrow.png" alt="" @click="hidden = !hidden" :class="hidden ? 'rotate-arrow' : ''">
+  </main>
 </template>
 
 <style scoped>
+
+  h3 {
+    margin: 0 0 1rem 0;
+  }
+
+  .reset-margin {
+    margin: 0;
+  }
   .inline {
     display: flex;
     justify-content: space-between;
@@ -110,5 +123,27 @@
     align-items: center;
     width: 100%;
     gap: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4rem 0;
+    border: 1px solid #509b00;
+    padding: 1rem;
+ }
+
+ .arrow {
+  width: 25px;
+  height: auto;
+  margin: 1rem 0 0 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+ }
+
+ .rotate-arrow {
+  transform: rotate(180deg);
  }
 </style>

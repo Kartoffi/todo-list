@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <div class="buttons-tab">
+  <div class="buttons-tab" v-if="list.length">
     <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
     <button @click="completed = !completed" v-else class="standard-button">Completed</button>
     <button class="tag-button"
