@@ -28,6 +28,7 @@
         id: list.length+1,
         tag: assignmentTag.value,
       });
+      localStorage.setItem('tasklist', JSON.stringify(list));
       for (let i = 0; i < tags.length; i++) {
         if (tags[i] == assignmentTag.value) {
           assignment.value = '';
@@ -41,6 +42,8 @@
       newAssignmentTag.value = '';
       assignmentTag.value = '';
     }
+    localStorage.setItem('tasklist', JSON.stringify(list));
+    localStorage.setItem('taglist', JSON.stringify(tags));
   }
 </script>
 

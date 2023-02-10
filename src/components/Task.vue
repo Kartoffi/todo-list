@@ -9,6 +9,7 @@
         list.splice(i, 1);
       }
     }
+    localStorage.setItem('tasklist', JSON.stringify(list));
     for (let i = 0; i < list.length; i++) {
       if (list[i].tag == currentTag) {
         return;
@@ -19,6 +20,7 @@
         tags.splice(i, 1);
       }
     }
+    localStorage.setItem('taglist', JSON.stringify(tags));
   }
 
   function changeState(task) {
@@ -27,6 +29,7 @@
         list[i].completed = true;
       }
     }
+    localStorage.setItem('tasklist', JSON.stringify(list));
   }
 </script>
 <template>
