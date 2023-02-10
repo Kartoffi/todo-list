@@ -3,14 +3,16 @@
   import Task from "./Task.vue";
   const { list, tags, title, completed } = defineProps(['list', 'tags', 'title', 'completed']);
   let selectedTag = ref("Alle");
+  let hidden = ref(false);
 </script>
 
 <template>
   <main>
-    <h3> {{ title }} </h3>
-    <div class="buttons-tab">
-      <!-- <button @click="completed = !completed" v-if="completed == false" class="standard-button">ToDo</button>
-      <button @click="completed = !completed" v-else class="standard-button">Completed</button> -->
+    <div class="inline" @click="hidden = !hidden">
+      <h3 :class="hidden ? 'reset-margin' : ''"> {{ title }} </h3>
+      <img class="arrow" src="../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
+    </div>
+    <div class="buttons-tab" v-if="!hidden">
       <button class="tag-button"
           @click="selectedTag = 'Alle'"
           :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle </button>
@@ -20,7 +22,7 @@
           :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
       </div>
     </div>
-    <ul v-if="list.length">
+    <ul v-if="list.length && !hidden">
       <Task
         v-for="item of list"
         :item="item"
@@ -35,8 +37,15 @@
 <style scoped>
 
   main {
-    margin: 3rem 0;
+    margin: 1rem 0;
   }
+
+  .inline {
+    display: flex;
+    cursor: pointer;
+    width: fit-content;
+  }
+
   .buttons-tab {
   margin: 1rem 0rem;
   width: 100%;
@@ -84,4 +93,15 @@
     padding-left: 0;
     margin: 0;
   }
+  .arrow {
+  width: 14px;
+  height: auto;
+  margin: 0 0 0 0.5rem;
+  transition: all 0.2s ease;
+  align-self: center;
+ }
+
+ .rotate-arrow {
+  transform: rotate(180deg);
+ }
 </style>
