@@ -2,8 +2,10 @@
   import { ref } from 'vue';
   import AddTask from '../components/AddTask.vue';
   import ToDoList from '../components/ToDoList.vue';
-  const list = ref([]);
-  const tags = ref([]);
+  let list = ref(JSON.parse(localStorage.getItem('tasklist')));
+  list = list == null ? ref([]) : list;
+  let tags = ref(JSON.parse(localStorage.getItem('taglist')));
+  tags = tags == null ? ref([]) : tags;
   const completed = ref(true);
 </script>
 
@@ -15,12 +17,12 @@
     <ToDoList
       :list="list"
       :tags="tags"
-      title="ToDo"
+      title="Noch erledigen"
       :completed="!completed"/>
     <ToDoList
       :list="list"
       :tags="tags"
-      title="Completed"
+      title="Abgeschlossen"
       :completed="completed"/>
   </main>
 </template>
