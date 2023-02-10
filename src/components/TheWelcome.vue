@@ -13,5 +13,4 @@
   ToDo-List is completely free!
   <h1 class="green"> Getting Started </h1>
   Click <RouterLink to="/todos"> here </RouterLink> to get started!
-  <button @click="flash('Task hinzugefügt', 'Erfolgreich einen Task hinzugefügt!')"> Test </button>
 </template>

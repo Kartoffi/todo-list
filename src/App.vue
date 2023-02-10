@@ -7,10 +7,10 @@ import HelloWorld from "./components/HelloWorld.vue";
   <header>
     <div class="wrapper">
       <HelloWorld msg="ToDo-List" />
-      <nav>
+      <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/todos">ToDos</RouterLink>
-      </nav>
+      </nav> -->
     </div>
   </header>
 
