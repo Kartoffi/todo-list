@@ -1,5 +1,6 @@
 <script setup>
   import { ref } from 'vue';
+  import TheWelcome from '../components/TheWelcome.vue';
   import AddTask from '../components/AddTask.vue';
   import ToDoList from '../components/ToDoList.vue';
   const completed = ref(true);
@@ -7,6 +8,7 @@
 
 <template>
   <main>
+    <TheWelcome/>
     <AddTask/>
     <ToDoList
       title="Noch erledigen"
