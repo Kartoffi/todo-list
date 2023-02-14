@@ -1,5 +1,7 @@
 <script setup>
-  const { item, completed, list, tags, selectedTag  } = defineProps(['item', 'completed', 'list', 'tags', 'selectedTag']);
+  import { list } from "../store/taskStore.js";
+  import { tags } from "../store/tagStore.js";
+  const { item, completed, selectedTag  } = defineProps(['item', 'completed', 'selectedTag']);
 
   function remove(task) {
     let currentTag = "";

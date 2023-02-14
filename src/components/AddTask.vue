@@ -1,7 +1,8 @@
 <script setup>
   import { ref } from 'vue';
   import { useFlash } from '../composables/useFlash';
-  const { list, tags  } = defineProps(['list', 'tags']);
+  import { list } from "../store/taskStore.js";
+  import { tags } from "../store/tagStore.js";
   let { flash } = useFlash();
   const assignment = ref('');
   const newAssignmentTag = ref('');

@@ -1,7 +1,9 @@
 <script setup>
   import { ref } from "vue";
   import Task from "./Task.vue";
-  const { list, tags, title, completed } = defineProps(['list', 'tags', 'title', 'completed']);
+  import { list } from "../store/taskStore.js";
+  import { tags } from "../store/tagStore.js";
+  const { title, completed } = defineProps(['title', 'completed']);
   let selectedTag = ref("Alle");
   let hidden = ref(false);
 </script>
@@ -27,9 +29,7 @@
         v-for="item of list"
         :item="item"
         :selected-tag="selectedTag"
-        :completed="completed"
-        :list="list"
-        :tags="tags"/>
+        :completed="completed"/>
     </ul>
   </main>
 </template>
