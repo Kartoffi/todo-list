@@ -1,8 +1,13 @@
 <script setup>
   import { ref } from 'vue';
   import { useFlash } from '../composables/useFlash';
-  import { list } from "../store/taskStore.js";
-  import { tags } from "../store/tagStore.js";
+  import { useTagStore } from "../store/tagStore.js";
+  import { useTaskStore } from "../store/taskStore.js";
+
+  let tags = useTagStore();
+  let tasks = useTaskStore();
+  tags = tags.taglist;
+  tasks = tasks.tasklist;
   let { flash } = useFlash();
   const assignment = ref('');
   const newAssignmentTag = ref('');
@@ -13,8 +18,8 @@
     if (newAssignmentTag.value !== '' && assignmentTag.value == '') {
       assignmentTag.value = newAssignmentTag.value;
     }
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].name == assignment.value) {
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == assignment.value) {
         flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
         assignment.value = '';
         assignmentTag.value = '';
@@ -23,13 +28,13 @@
       }
     }
     if (assignment.value != '') {
-      list.push({
+      tasks.push({
         name: assignment.value,
         completed: false,
-        id: list.length+1,
+        id: tasks.length+1,
         tag: assignmentTag.value,
       });
-      localStorage.setItem('tasklist', JSON.stringify(list));
+      localStorage.setItem('tasklist', JSON.stringify(tasks));
       for (let i = 0; i < tags.length; i++) {
         if (tags[i] == assignmentTag.value) {
           assignment.value = '';
@@ -43,7 +48,7 @@
       newAssignmentTag.value = '';
       assignmentTag.value = '';
     }
-    localStorage.setItem('tasklist', JSON.stringify(list));
+    localStorage.setItem('tasklist', JSON.stringify(tasks));
     localStorage.setItem('taglist', JSON.stringify(tags));
   }
 </script>

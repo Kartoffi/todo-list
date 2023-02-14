@@ -1,9 +1,16 @@
-import { ref } from 'vue';
-export let username = ref({
-  name:  localStorage.getItem('username') ? localStorage.getItem('username') : '',
+import { defineStore } from "pinia";
 
-  addName(newName) {
-    this.name = newName;
-    localStorage.setItem('username', this.name);
-  }
+export let useNameStore = defineStore('saveUsername', {
+  state() {
+    return {
+      name: localStorage.getItem('username') ? localStorage.getItem('username') : '',
+    };
+  },
+
+  actions: {
+    addName(newName) {
+      this.name = newName;
+      localStorage.setItem('username', this.name);
+    }
+  },
 });

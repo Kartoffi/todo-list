@@ -1,19 +1,24 @@
 <script setup>
-  import { list } from "../store/taskStore.js";
-  import { tags } from "../store/tagStore.js";
+  import { useTagStore } from "../store/tagStore.js";
+  import { useTaskStore } from "../store/taskStore.js";
+
+  let tags = useTagStore();
+  let tasks = useTaskStore();
+  tags = tags.taglist;
+  tasks = tasks.tasklist;
   const { item, completed, selectedTag  } = defineProps(['item', 'completed', 'selectedTag']);
 
   function remove(task) {
     let currentTag = "";
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].name == task.name) {
-        currentTag = list[i].tag;
-        list.splice(i, 1);
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == task.name) {
+        currentTag = tasks[i].tag;
+        tasks.splice(i, 1);
       }
     }
-    localStorage.setItem('tasklist', JSON.stringify(list));
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].tag == currentTag) {
+    localStorage.setItem('tasklist', JSON.stringify(tasks));
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].tag == currentTag) {
         return;
       }
     }
@@ -26,12 +31,12 @@
   }
 
   function changeState(task) {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].name == task.name) {
-        list[i].completed = true;
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == task.name) {
+        tasks[i].completed = true;
       }
     }
-    localStorage.setItem('tasklist', JSON.stringify(list));
+    localStorage.setItem('tasklist', JSON.stringify(tasks));
   }
 </script>
 <template>

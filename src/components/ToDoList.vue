@@ -1,8 +1,13 @@
 <script setup>
   import { ref } from "vue";
   import Task from "./Task.vue";
-  import { list } from "../store/taskStore.js";
-  import { tags } from "../store/tagStore.js";
+  import { useTagStore } from "../store/tagStore.js";
+  import { useTaskStore } from "../store/taskStore.js";
+
+  let tags = useTagStore();
+  let tasks = useTaskStore();
+  tags = tags.taglist;
+  tasks = tasks.tasklist;
   const { title, completed } = defineProps(['title', 'completed']);
   let selectedTag = ref("Alle");
   let hidden = ref(false);
@@ -24,9 +29,9 @@
           :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
       </div>
     </div>
-    <ul v-if="list.length && !hidden">
+    <ul v-if="tasks.length && !hidden">
       <Task
-        v-for="item of list"
+        v-for="item of tasks"
         :item="item"
         :selected-tag="selectedTag"
         :completed="completed"/>

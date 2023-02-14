@@ -1,5 +1,7 @@
 <script setup>
-  import { username } from '../store/nameStore.js';
+  import { useNameStore } from '../store/nameStore.js';
+
+  let username = useNameStore();
 </script>
 
 <template>

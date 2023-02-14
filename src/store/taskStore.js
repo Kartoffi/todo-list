@@ -1,5 +1,9 @@
-import { reactive } from 'vue';
-export let list = reactive([]);
-if (localStorage.getItem('tasklist') != null) {
-  list = reactive(JSON.parse(localStorage.getItem('tasklist')));
-}
+import { defineStore } from "pinia";
+
+export let useTaskStore = defineStore('addTask', {
+  state() {
+    return {
+      tasklist: JSON.parse(localStorage.getItem('tasklist')) != null ? JSON.parse(localStorage.getItem('tasklist')) : [],
+    };
+  },
+});
