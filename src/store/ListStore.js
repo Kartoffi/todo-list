@@ -84,20 +84,33 @@ export let useListStore = defineStore('list', {
       localStorage.setItem('tags', JSON.stringify(this.tags));
     },
 
-    tasksLength(tag) {
-      let taskCounter = 0;
+    tasksLength(completed, tag) {
+      tag = tag == 'Alle' ? null : tag;
+      let counter = 0;
+      let taskCounter = {
+        all: 0,
+        completed: 0,
+        incompleted: 0,
+      };
       for (let i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].tag === tag || tag === 'Alle') {
-          taskCounter++;
+        if (this.tasks[i].tag == tag || tag == null) {
+          taskCounter.all = taskCounter.all+1;
+        }
+        if ((this.tasks[i].tag == tag || tag == null) && !this.tasks[i].completed) {
+          taskCounter.incompleted++;
+        }
+        if ((this.tasks[i].tag == tag || tag == null) && this.tasks[i].completed) {
+          taskCounter.completed++;
         }
       }
-      return taskCounter;
+      counter = completed == null ? taskCounter.all : (completed ? taskCounter.completed : taskCounter.incompleted);
+      return counter;
     },
 
     emptyTaskList(tag, empty) {
       let listNotEmpty = true;
       for (let i = 0; i < this.tasks.length; i++) {
-        if ((this.tasks[i].tag === tag || tag === 'Alle') && this.tasks[i].completed === empty) {
+        if ((this.tasks[i].tag == tag || tag == 'Alle') && this.tasks[i].completed == empty) {
           listNotEmpty = false;
         }
       }
@@ -106,6 +119,5 @@ export let useListStore = defineStore('list', {
   },
 
   getters: {
-
   }
 });

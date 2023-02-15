@@ -7,7 +7,7 @@
 <template>
   <button class="tag-button"
   v-if="!list.emptyTaskList(tag, completed)"
-  :class="selectedTag == tag ? 'tag-highlight' : ''"> {{ tag }} ({{ list.tasksLength(tag) }})</button>
+  :class="selectedTag == tag ? 'tag-highlight' : ''"> {{ tag }} ({{ list.tasksLength(completed, tag) }})</button>
 </template>
 
 <style scoped>
