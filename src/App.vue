@@ -1,12 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="ToDo-List" />
+      <div class="greetings">
+        <h1 class="green"> ToDo-List </h1>
+      </div>
       <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/todos">ToDos</RouterLink>
@@ -45,5 +46,13 @@ import HelloWorld from "./components/HelloWorld.vue";
 
   main {
     margin-top: 1.5rem;
+  }
+
+  .greetings h1 {
+    text-align: center;
+    font-family: Marker Felt;
+    font-size: 60px;
+    margin: 0;
+    font-weight: 500;
   }
 </style>
