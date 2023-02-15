@@ -7,10 +7,10 @@ export let useListStore = defineStore('list', {
   state() {
     return {
       tasks: JSON.parse(localStorage.getItem('tasks')) != null ? JSON.parse(localStorage.getItem('tasks')) : [],
-      tags: JSON.parse(localStorage.getItem('tags')) != null ? JSON.parse(localStorage.getItem('tags')) : [],
+      tags: JSON.parse(localStorage.getItem('tags')) != null ? JSON.parse(localStorage.getItem('tags')) : ["Alle"],
       task: '',
       tag: '',
-      newTag: '',
+      newTag: ''
     };
   },
 
@@ -87,7 +87,7 @@ export let useListStore = defineStore('list', {
     tasksLength(tag) {
       let taskCounter = 0;
       for (let i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].tag === tag) {
+        if (this.tasks[i].tag === tag || tag === 'Alle') {
           taskCounter++;
         }
       }
@@ -97,7 +97,7 @@ export let useListStore = defineStore('list', {
     emptyTaskList(tag, empty) {
       let listNotEmpty = true;
       for (let i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].tag === tag && this.tasks[i].completed === empty) {
+        if ((this.tasks[i].tag === tag || tag === 'Alle') && this.tasks[i].completed === empty) {
           listNotEmpty = false;
         }
       }

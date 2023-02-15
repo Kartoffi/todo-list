@@ -1,6 +1,7 @@
 <script setup>
   import { ref } from "vue";
   import Task from "./Task.vue";
+  import Tag from "./Tag.vue";
   import { useListStore } from "../../store/ListStore.js";
 
   let list = useListStore();
@@ -19,15 +20,11 @@
       <img class="arrow" src="../../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
     </div>
     <div class="buttons-tab" v-if="!hidden">
-      <button class="tag-button"
-          @click="selectedTag = 'Alle'"
-          :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle ({{ list.tasks.length }}) </button>
-      <div v-for="tag of tags">
-        <button class="tag-button"
-          v-if="!list.emptyTaskList(tag, completed)"
-          @click="selectedTag = tag"
-          :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }} ({{ list.tasksLength(tag) }})</button>
-      </div>
+      <Tag v-for="tag of tags"
+        @click="selectedTag = tag"
+        :tag="tag"
+        :selected-tag="selectedTag"
+        :completed="completed"/>
     </div>
     <ul v-if="tasks.length && !hidden">
       <Task
@@ -69,25 +66,6 @@
     padding: 10px;
     border-radius: 3px;
     cursor: pointer;
- }
-
- .tag-button {
-    background-color: #659235;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    border:none;
-    padding: 10px;
-    border-radius: 3px;
-    cursor: pointer;
- }
-
- .tag-highlight {
-  background-color: #88ba53;
- }
-
- .tag-button:hover {
-  background-color: #78a746;
  }
 
  .standard-button:hover {
