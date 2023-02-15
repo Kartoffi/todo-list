@@ -1,76 +1,29 @@
 <script setup>
   import { ref } from 'vue';
-  import { useFlash } from '../../composables/useFlash';
-  import { useTagStore } from "../../store/tagStore.js";
-  import { useTaskStore } from "../../store/taskStore.js";
+  import { useListStore } from '../../store/ListStore.js';
 
-  let tags = useTagStore();
-  let tasks = useTaskStore();
-  tags = tags.taglist;
-  tasks = tasks.tasklist;
-  let { flash } = useFlash();
-  const assignment = ref('');
-  const newAssignmentTag = ref('');
-  let assignmentTag = ref('');
+  let list = useListStore();
   let hidden = ref(false);
-
-  function add() {
-    if (newAssignmentTag.value !== '' && assignmentTag.value == '') {
-      assignmentTag.value = newAssignmentTag.value;
-    }
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].name == assignment.value) {
-        flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
-        assignment.value = '';
-        assignmentTag.value = '';
-        newAssignmentTag.value = '';
-        return;
-      }
-    }
-    if (assignment.value != '') {
-      tasks.push({
-        name: assignment.value,
-        completed: false,
-        id: tasks.length+1,
-        tag: assignmentTag.value,
-      });
-      localStorage.setItem('tasklist', JSON.stringify(tasks));
-      for (let i = 0; i < tags.length; i++) {
-        if (tags[i] == assignmentTag.value) {
-          assignment.value = '';
-          assignmentTag.value = '';
-          newAssignmentTag.value = '';
-          return;
-        }
-      }
-      tags.push(assignmentTag.value);
-      assignment.value = '';
-      newAssignmentTag.value = '';
-      assignmentTag.value = '';
-    }
-    localStorage.setItem('tasklist', JSON.stringify(tasks));
-    localStorage.setItem('taglist', JSON.stringify(tags));
-  }
 </script>
 
 <template>
   <main>
     <h3 :class="hidden ? 'reset-margin' : ''"> Neuen Task erstellen </h3>
-    <form @submit.prevent="add" v-if="!hidden">
-      <input type="text" v-model="assignment" placeholder="Task (bspw. putzen)" class="input-task input-categor">
+    <form @submit.prevent="list.add()" v-if="!hidden">
+      <input type="text" v-model="list.task" placeholder="Task (bspw. putzen)" class="input-task input-categor">
       <div class="inline">
-        <input type="text" v-model="newAssignmentTag" placeholder="Kategorie erstellen (bspw. Haushalt)" class="input-task">
+        <input type="text" v-model="list.newTag" placeholder="Kategorie erstellen (bspw. Haushalt)" class="input-task">
         <p> oder </p>
-        <select name="tags" id="tags" class="dropdown" v-model="assignmentTag">
+        <select name="tags" id="tags" class="dropdown" v-model="list.tag">
           <option value="" disabled selected> Kategorie wählen </option>
             <option
-              v-for="tag in tags"> {{ tag }} </option>
+              v-for="tag in list.tags"> {{ tag }} </option>
         </select>
       </div>
       <button class="add-task"> Task hinzufügen</button>
     </form>
     <div class="arrow-background" @click="hidden = !hidden" >
-      <img class="arrow" src="../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
+      <img class="arrow" src="../../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
     </div>
   </main>
 </template>

@@ -1,13 +1,12 @@
 <script setup>
   import { ref } from "vue";
   import Task from "./Task.vue";
-  import { useTagStore } from "../../store/tagStore.js";
-  import { useTaskStore } from "../../store/taskStore.js";
+  import { useListStore } from "../../store/ListStore.js";
 
-  let tags = useTagStore();
-  let tasks = useTaskStore();
-  tags = tags.taglist;
-  tasks = tasks.tasklist;
+  let list = useListStore();
+  let tags = list.tags;
+  let tasks = list.tasks;
+
   const { title, completed } = defineProps(['title', 'completed']);
   let selectedTag = ref("Alle");
   let hidden = ref(false);
@@ -17,16 +16,17 @@
   <main>
     <div class="inline" @click="hidden = !hidden">
       <h3 :class="hidden ? 'reset-margin' : ''"> {{ title }} </h3>
-      <img class="arrow" src="../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
+      <img class="arrow" src="../../icons/arrow.png" alt="" :class="hidden ? 'rotate-arrow' : ''">
     </div>
     <div class="buttons-tab" v-if="!hidden">
       <button class="tag-button"
           @click="selectedTag = 'Alle'"
-          :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle </button>
+          :class="selectedTag === 'Alle' ? 'tag-highlight' : ''"> Alle ({{ list.tasks.length }}) </button>
       <div v-for="tag of tags">
         <button class="tag-button"
+          v-if="!list.emptyTaskList(tag, completed)"
           @click="selectedTag = tag"
-          :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }}</button>
+          :class="selectedTag === tag ? 'tag-highlight' : ''"> {{ tag }} ({{ list.tasksLength(tag) }})</button>
       </div>
     </div>
     <ul v-if="tasks.length && !hidden">

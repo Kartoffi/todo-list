@@ -1,54 +1,19 @@
 <script setup>
-  import { useTagStore } from "../../store/tagStore.js";
-  import { useTaskStore } from "../../store/taskStore.js";
+  import { useListStore } from "../../store/ListStore.js";
+  let list = useListStore();
 
-  let tags = useTagStore();
-  let tasks = useTaskStore();
-  tags = tags.taglist;
-  tasks = tasks.tasklist;
   const { item, completed, selectedTag  } = defineProps(['item', 'completed', 'selectedTag']);
-
-  function remove(task) {
-    let currentTag = "";
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].name == task.name) {
-        currentTag = tasks[i].tag;
-        tasks.splice(i, 1);
-      }
-    }
-    localStorage.setItem('tasklist', JSON.stringify(tasks));
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].tag == currentTag) {
-        return;
-      }
-    }
-    for (let i = 0; i < tags.length; i++) {
-      if (tags[i] == currentTag) {
-        tags.splice(i, 1);
-      }
-    }
-    localStorage.setItem('taglist', JSON.stringify(tags));
-  }
-
-  function changeState(task) {
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].name == task.name) {
-        tasks[i].completed = true;
-      }
-    }
-    localStorage.setItem('tasklist', JSON.stringify(tasks));
-  }
 </script>
 <template>
   <div>
     <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
       <div class="group">
-        <input type="checkbox" class="check-box" @click="changeState(item)" v-if="!completed">
+        <input type="checkbox" class="check-box" @click="list.changeState(item)" v-if="!completed">
         <label :class="completed ? 'completed-task' : ''">
           {{ item.name }}
         </label>
       </div>
-      <button @click="remove(item)" class="remove-task"> x </button>
+      <button @click="list.remove(item)" class="remove-task"> x </button>
     </li>
   </div>
 </template>
