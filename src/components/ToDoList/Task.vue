@@ -1,10 +1,18 @@
 <script setup>
+  import { ref } from "vue";
   import { useListStore } from "../../store/ListStore.js";
+  import TaskModal from './TaskModal.vue';
   let list = useListStore();
-
+  let showModal = ref(false);
   const { item, completed, selectedTag  } = defineProps(['item', 'completed', 'selectedTag']);
 </script>
 <template>
+  <TaskModal
+    :show="showModal"
+    @close="showModal = false"
+    :task="item.name"
+    :tag="item.tag"
+    :completed="item.completed"/>
   <div>
     <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
       <div class="group">
@@ -13,7 +21,10 @@
           {{ item.name }}
         </label>
       </div>
-      <button @click="list.remove(item)" class="remove-task"> x </button>
+      <div class="group">
+        <button @click="showModal = !showModal" class="task-options"> ... </button>
+        <button @click="list.remove(item)" class="remove-task"> x </button>
+      </div>
     </li>
   </div>
 </template>
@@ -32,6 +43,17 @@
   .completed-task {
   text-decoration: line-through;
  }
+
+ .task-options {
+    border: none;
+    width: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    background: none;
+    opacity: 0;
+    padding: 0;
+  }
 
   .remove-task {
     border: none;
@@ -72,7 +94,7 @@
     border-color: #88BA53;
   }
 
-  li:hover .remove-task{
+  li:hover .remove-task, li:hover .task-options {
     opacity: 1;
   }
 </style>
