@@ -1,8 +1,8 @@
 <script setup>
   import { ref } from 'vue';
-  import TheWelcome from '../components/TheWelcome.vue';
-  import AddTask from '../components/AddTask.vue';
-  import ToDoList from '../components/ToDoList.vue';
+  import TheWelcome from '../components/ToDoList/TheWelcome.vue';
+  import AddTask from '../components/ToDoList/AddTask.vue';
+  import ToDoList from '../components/ToDoList/ToDoList.vue';
   const completed = ref(true);
 </script>
 

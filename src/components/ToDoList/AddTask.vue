@@ -1,8 +1,8 @@
 <script setup>
   import { ref } from 'vue';
-  import { useFlash } from '../composables/useFlash';
-  import { useTagStore } from "../store/tagStore.js";
-  import { useTaskStore } from "../store/taskStore.js";
+  import { useFlash } from '../../composables/useFlash';
+  import { useTagStore } from "../../store/tagStore.js";
+  import { useTaskStore } from "../../store/taskStore.js";
 
   let tags = useTagStore();
   let tasks = useTaskStore();
