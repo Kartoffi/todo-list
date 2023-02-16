@@ -1,50 +1,50 @@
-<script setup>
-  import { ref } from "vue";
-  import { useListStore } from "../../store/ListStore.js";
-  import TaskModal from './TaskModal.vue';
-  let list = useListStore();
-  let showModal = ref(false);
-  const { item, completed, selectedTag  } = defineProps(['item', 'completed', 'selectedTag']);
-</script>
 <template>
   <TaskModal
     :show="showModal"
     @close="showModal = false"
-    :task="item.name"
-    :tag="item.tag"
-    :completed="item.completed"/>
+    :task="task"
+  />
   <div>
-    <li v-if="item.completed == completed && (item.tag == selectedTag || selectedTag == 'Alle')">
-      <div class="group">
-        <input type="checkbox" class="check-box" @click="list.changeState(item)" v-if="!completed">
-        <label :class="completed ? 'completed-task' : ''">
-          {{ item.name }}
+    <li>
+      <div class="task-group">
+        <input
+          type="checkbox"
+          class="check-box"
+          @click="list.changeState(task)"
+          v-if="!completed"
+        >
+        <label :class="{ 'task--completed': completed }">
+          {{ task.name }}
         </label>
       </div>
-      <div class="group">
-        <button @click="showModal = !showModal" class="task-options"> ... </button>
-        <button @click="list.remove(item)" class="remove-task"> x </button>
+      <div class="task-group">
+        <button
+          @click="showModal = !showModal"
+          class="task-options"
+        > ... </button>
+        <button
+          @click="list.remove(task)"
+          class="task-remove-button"
+        > x </button>
       </div>
     </li>
-  </div>
+</div>
 </template>
 
-<style scoped>
-  .group {
-    display: flex;
-    width: unset;
-  }
+<script setup>
+import { ref } from "vue";
+import { useListStore } from "../../store/ListStore.js";
+import TaskModal from './TaskModal.vue';
+let list = useListStore();
+let showModal = ref(false);
+const { task, completed } = defineProps(['task', 'completed']);
+</script>
 
-  .check-box {
-    min-width: 18px;
-    height: 18px;
-  }
+<style scoped lang="scss">
+$list-item-color: #509B00;
 
-  .completed-task {
-  text-decoration: line-through;
- }
-
- .task-options {
+.task {
+  &-options {
     border: none;
     width: 30px;
     font-size: 15px;
@@ -55,7 +55,12 @@
     padding: 0;
   }
 
-  .remove-task {
+  &-group {
+    display: flex;
+    width: unset;
+  }
+
+  &-remove-button {
     border: none;
     width: 30px;
     font-size: 15px;
@@ -66,35 +71,47 @@
     padding: 0;
   }
 
-  label {
-    display: inline-block;
-    word-break: break-word;
-    margin-left: 0.5rem;
+  &--completed {
+    text-decoration: line-through;
   }
+}
 
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-    padding: 1rem;
-    border: 1px solid #509B00;
-    margin: 0.5rem 0rem;
-  }
+.check-box {
+  min-width: 18px;
+  height: 18px;
+}
 
-  li:first-of-type{
+label {
+  display: inline-block;
+  word-break: break-word;
+  margin-left: 0.5rem;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 1rem;
+  border: 1px solid $list-item-color;
+  margin: 0.5rem 0rem;
+  cursor: pointer;
+
+  &:first-of-type {
     margin-top: 0;
   }
 
-  li, li * {
+  >* {
     cursor: pointer;
   }
 
-  li:hover {
+  &:hover {
     border-color: #88BA53;
-  }
 
-  li:hover .remove-task, li:hover .task-options {
-    opacity: 1;
+    .task-remove-button,
+    .task-options {
+      opacity: 1;
+    }
   }
+}
 </style>

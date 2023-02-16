@@ -1,7 +1,4 @@
 import { defineStore } from "pinia";
-import { useFlash } from '../composables/useFlash';
-
-let { flash } = useFlash();
 
 export let useListStore = defineStore('list', {
   state() {
@@ -19,36 +16,30 @@ export let useListStore = defineStore('list', {
       if (this.newTag !== '' && this.tag == '') {
         this.tag = this.newTag;
       }
-      for (let i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].name == this.task) {
-          flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
+
+      if (this.task == '') {
+        return;
+      }
+
+      this.tasks.push({
+        name: this.task,
+        completed: false,
+        id: this.tasks.length+1,
+        tag: this.tag,
+      });
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      for (let i = 0; i < this.tags.length; i++) {
+        if (this.tags[i] == this.tag) {
           this.task = '';
           this.tag = '';
           this.newTag = '';
           return;
         }
       }
-      if (this.task != '') {
-        this.tasks.push({
-          name: this.task,
-          completed: false,
-          id: this.tasks.length+1,
-          tag: this.tag,
-        });
-        localStorage.setItem('tasks', JSON.stringify(this.tasks));
-        for (let i = 0; i < this.tags.length; i++) {
-          if (this.tags[i] == this.tag) {
-            this.task = '';
-            this.tag = '';
-            this.newTag = '';
-            return;
-          }
-        }
-        this.tags.push(this.tag);
-        this.task = '';
-        this.newTag = '';
-        this.tag = '';
-      }
+      this.tags.push(this.tag);
+      this.task = '';
+      this.newTag = '';
+      this.tag = '';
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       localStorage.setItem('tags', JSON.stringify(this.tags));
     },
