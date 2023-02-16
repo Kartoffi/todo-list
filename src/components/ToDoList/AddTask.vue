@@ -1,23 +1,3 @@
-<script setup>
-import { ref } from 'vue';
-import { useListStore } from '../../store/ListStore.js';
-import { useFlash } from '../../composables/useFlash';
-let { flash } = useFlash();
-
-let list = useListStore();
-let hidden = ref(false);
-
-function createTask() {
-  const taskNameAlreadyExists = list.tasks.find((task) => task.name == list.task);
-  if (taskNameAlreadyExists) {
-    flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
-
-    return;
-  }
-  list.add();
-}
-</script>
-
 <template>
   <main>
     <h3 :class="hidden ? 'reset-margin' : ''"> Neuen Task erstellen </h3>
@@ -29,14 +9,14 @@ function createTask() {
         type="text"
         v-model="list.task"
         placeholder="Task (bspw. putzen)"
-        class="input-task input-categor"
+        class="task-input"
       >
       <div class="inline">
         <input
           type="text"
           v-model="list.newTag"
           placeholder="Kategorie erstellen (bspw. Haushalt)"
-          class="input-task"
+          class="task-input"
         >
         <p> oder </p>
         <select
@@ -53,7 +33,7 @@ function createTask() {
           <option v-for="tag in list.tags"> {{ tag }} </option>
         </select>
       </div>
-      <button class="add-task"> Task hinzufügen</button>
+      <button class="task-add"> Task hinzufügen</button>
     </form>
     <div
       class="arrow-background"
@@ -63,13 +43,32 @@ function createTask() {
         class="arrow"
         src="../../icons/arrow.png"
         alt=""
-        :class="hidden ? 'rotate-arrow' : ''"
+        :class="hidden ? 'arrow-rotate' : ''"
       >
     </div>
 </main>
 </template>
 
-<style scoped>
+<script setup>
+import { ref } from 'vue';
+import { useListStore } from '../../store/ListStore.js';
+import { useFlash } from '../../composables/useFlash';
+let { flash } = useFlash();
+
+let list = useListStore();
+let hidden = ref(false);
+
+function createTask() {
+  const taskNameAlreadyExists = list.tasks.find((task) => task.name == list.task);
+  if (taskNameAlreadyExists) {
+    flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
+    return;
+  }
+  list.add();
+}
+</script>
+
+<style scoped lang="scss">
 h3 {
   margin: 0 0 1rem 0;
 }
@@ -83,19 +82,33 @@ h3 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  & p {
+    margin: 0 0.5rem;
+  }
 }
 
-.inline p {
-  margin: 0 0.5rem;
-}
-
-.input-task {
-  width: calc(100% - 20px);
-  padding: 0 10px;
-  height: 36px;
-  border: none;
-  border-radius: 3px;
-  background-color: rgb(241, 241, 241);
+.task {
+  &-input {
+    width: calc(100% - 20px);
+    padding: 0 10px;
+    height: 36px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(241, 241, 241);
+  }
+  &-add {
+    padding: 0.75rem;
+    width: fit-content;
+    font-weight: bold;
+    background-color: #509b00;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background-color: #64c200;
+    }
+  }
 }
 
 .dropdown {
@@ -105,21 +118,6 @@ h3 {
   border: none;
   border-radius: 3px;
   background-color: rgb(241, 241, 241);
-}
-
-.add-task {
-  padding: 0.75rem;
-  width: fit-content;
-  font-weight: bold;
-  background-color: #509b00;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.add-task:hover {
-  background-color: #64c200;
 }
 
 form {
@@ -140,21 +138,19 @@ main {
   padding: 1rem;
 }
 
-.arrow-background {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  cursor: pointer;
-}
-
 .arrow {
   width: 25px;
   height: auto;
   margin: 1rem 0 0 0;
   transition: all 0.2s ease;
-}
-
-.rotate-arrow {
-  transform: rotate(180deg);
+  &-rotate {
+    transform: rotate(180deg);
+  }
+  &-background {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    cursor: pointer;
+  }
 }
 </style>

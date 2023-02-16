@@ -1,9 +1,3 @@
-<script setup>
-  import { useNameStore } from '../../store/nameStore.js';
-
-  let username = useNameStore();
-</script>
-
 <template>
   <main>
     <h3> Willkommen, </h3>
@@ -16,7 +10,13 @@
   </main>
 </template>
 
-<style scoped>
+<script setup>
+  import { useNameStore } from '../../store/nameStore.js';
+
+  let username = useNameStore();
+</script>
+
+<style scoped lang="scss">
   main {
     display: flex;
     align-items: center;

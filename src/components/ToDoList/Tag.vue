@@ -1,9 +1,3 @@
-<script setup>
-import { useListStore } from "../../store/ListStore.js";
-let list = useListStore();
-
-const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'selectedTag']);
-</script>
 <template>
   <button
     class="tag-button"
@@ -12,23 +6,30 @@ const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'select
 > {{ tag }} ({{ list.tasksLength(completed, tag) }})</button>
 </template>
 
-<style scoped>
-.tag-button {
-  background-color: #659235;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border: none;
-  padding: 10px;
-  border-radius: 3px;
-  cursor: pointer;
-}
+<script setup>
+import { useListStore } from "../../store/ListStore.js";
+let list = useListStore();
 
-.tag-highlight {
-  background-color: #88ba53;
-}
+const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'selectedTag']);
+</script>
 
-.tag-button:hover {
-  background-color: #78a746;
+<style scoped lang="scss">
+.tag {
+  &-button {
+    background-color: #659235;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background-color: #78a746;
+    }
+  }
+  &-highlight {
+    background-color: #88ba53;
+  }
 }
 </style>

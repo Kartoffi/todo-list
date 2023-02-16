@@ -1,10 +1,3 @@
-<script setup>
-defineProps({
-  show: Boolean,
-  task: Object,
-});
-</script>
-
 <template>
   <div
     v-if="show"
@@ -19,20 +12,28 @@ defineProps({
 </div>
 </template>
 
-<style scoped>
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.50);
-  display: grid;
-  place-items: center;
-}
+<script setup>
+defineProps({
+  show: Boolean,
+  task: Object,
+});
+</script>
 
-.modal-container {
-  background: white;
-  padding: 1rem;
-  width: 80vw;
-  max-width: 500px;
+<style scoped lang="scss">
+.modal {
+  &-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.50);
+    display: grid;
+    place-items: center;
+  }
+  &-container {
+    background: white;
+    padding: 1rem;
+    width: 80vw;
+    max-width: 500px;
+  }
 }
 </style>
 
