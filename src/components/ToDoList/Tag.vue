@@ -1,22 +1,25 @@
 <template>
   <button
     class="tag-button"
-    v-if="!list.emptyTaskList(tag, completed)"
-    :class="{ 'tag-highlight': selectedTag == tag }"
-> {{ tag }} ({{ list.tasksLength(completed, tag) }})</button>
+    v-if="!taskList.emptyTaskList(tag, completed)"
+    :class="{ 'tag--highlight': selectedTag == tag }"
+> {{ tag }} ({{ taskList.tasksLength(completed, tag) }})</button>
 </template>
 
 <script setup>
-import { useListStore } from "../../store/ListStore.js";
-let list = useListStore();
+import { useTaskStore } from "../../store/TaskStore.js";
+let taskList = useTaskStore();
 
 const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'selectedTag']);
 </script>
 
 <style scoped lang="scss">
+$button-background-color: #659235;
+$button-background-color-hover: #78a746;
+$button-background-color-highlight: #88ba53;
 .tag {
   &-button {
-    background-color: #659235;
+    background-color: $button-background-color;
     color: white;
     font-size: 12px;
     font-weight: bold;
@@ -25,11 +28,11 @@ const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'select
     border-radius: 3px;
     cursor: pointer;
     &:hover {
-      background-color: #78a746;
+      background-color: $button-background-color-hover;
     }
   }
-  &-highlight {
-    background-color: #88ba53;
+  &--highlight {
+    background-color: $button-background-color-highlight;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export let useListStore = defineStore('list', {
+export let useTaskStore = defineStore('taskList', {
   state() {
     return {
       tasks: JSON.parse(localStorage.getItem('tasks')) != null ? JSON.parse(localStorage.getItem('tasks')) : [],

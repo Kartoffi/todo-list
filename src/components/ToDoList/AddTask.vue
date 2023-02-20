@@ -1,20 +1,20 @@
 <template>
   <main>
-    <h3 :class="hidden ? 'reset-margin' : ''"> Neuen Task erstellen </h3>
+    <h3 :class="{ 'reset-margin' : hidden }"> Neuen Task erstellen </h3>
     <form
       @submit.prevent="createTask"
       v-if="!hidden"
     >
       <input
         type="text"
-        v-model="list.task"
+        v-model="taskList.task"
         placeholder="Task (bspw. putzen)"
         class="task-input"
       >
       <div class="inline">
         <input
           type="text"
-          v-model="list.newTag"
+          v-model="taskList.newTag"
           placeholder="Kategorie erstellen (bspw. Haushalt)"
           class="task-input"
         >
@@ -23,14 +23,14 @@
           name="tags"
           id="tags"
           class="dropdown"
-          v-model="list.tag"
+          v-model="taskList.tag"
         >
           <option
             value=""
             disabled
             selected
           > Kategorie wählen </option>
-          <option v-for="tag in list.tags"> {{ tag }} </option>
+          <option v-for="tag in taskList.tags"> {{ tag }} </option>
         </select>
       </div>
       <button class="task-add"> Task hinzufügen</button>
@@ -43,7 +43,7 @@
         class="arrow"
         src="../../icons/arrow.png"
         alt=""
-        :class="hidden ? 'arrow-rotate' : ''"
+        :class="{'arrow-rotate' : hidden}"
       >
     </div>
 </main>
@@ -51,20 +51,20 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useListStore } from '../../store/ListStore.js';
+import { useTaskStore } from '../../store/TaskStore.js';
 import { useFlash } from '../../composables/useFlash';
 let { flash } = useFlash();
 
-let list = useListStore();
+let taskList = useTaskStore();
 let hidden = ref(false);
 
 function createTask() {
-  const taskNameAlreadyExists = list.tasks.find((task) => task.name == list.task);
+  const taskNameAlreadyExists = taskList.tasks.find((task) => task.name == taskList.task);
   if (taskNameAlreadyExists) {
     flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
     return;
   }
-  list.add();
+  taskList.add();
 }
 </script>
 

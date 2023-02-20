@@ -10,7 +10,7 @@
         <input
           type="checkbox"
           class="check-box"
-          @click="list.changeState(task)"
+          @click="taskList.changeState(task)"
           v-if="!completed"
         >
         <label :class="{ 'task--completed': completed }">
@@ -23,7 +23,7 @@
           class="task-options"
         > ... </button>
         <button
-          @click="list.remove(task)"
+          @click="taskList.remove(task)"
           class="task-remove-button"
         > x </button>
       </div>
@@ -33,9 +33,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { useListStore } from "../../store/ListStore.js";
+import { useTaskStore } from "../../store/TaskStore.js";
 import TaskModal from './TaskModal.vue';
-let list = useListStore();
+let taskList = useTaskStore();
 let showModal = ref(false);
 const { task, completed } = defineProps(['task', 'completed']);
 </script>

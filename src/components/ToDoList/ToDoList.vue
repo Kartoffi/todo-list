@@ -4,13 +4,13 @@
       class="inline"
       @click="hidden = !hidden"
     >
-      <h3 :class="hidden ? 'reset-margin' : ''"> {{ completed ? 'Abgeschlossen' : 'Offen' }} ({{ filteredTasks.length }})
+      <h3 :class="{'reset-margin': hidden}"> {{ completed ? 'Abgeschlossen' : 'Offen' }} ({{ filteredTasks.length }})
       </h3>
       <img
         class="arrow"
         src="../../icons/arrow.png"
         alt=""
-        :class="hidden ? 'arrow-rotate' : ''"
+        :class="{'arrow-rotate': hidden}"
       >
     </div>
     <div
@@ -39,11 +39,11 @@
 import { ref, computed } from "vue";
 import Task from "./Task.vue";
 import Tag from "./Tag.vue";
-import { useListStore } from "../../store/ListStore.js";
+import { useTaskStore } from "../../store/TaskStore.js";
 
-let list = useListStore();
-let tags = list.tags;
-let tasks = list.tasks;
+let taskList = useTaskStore();
+let tags = taskList.tags;
+let tasks = taskList.tasks;
 
 const { completed } = defineProps({
   completed: {
