@@ -17,18 +17,14 @@
       class="button-tab"
       v-if="!hidden"
     >
-    <div
-      v-for="tag of tags"
-      :class="{'hide': !tasks.filter((task) => (task.tag === tag || tag === 'Alle')).length}"
-    >
       <Tag
+        v-for="tag of filteredTags"
         @click="selectedTag = tag"
         :tag="tag"
         :selected-tag="selectedTag"
         :completed="completed"
         :amount-of-tasks="tasks.filter((task) => (task.tag === tag || tag === 'Alle')).length"
       />
-    </div>
     </div>
     <ul v-if="filteredTasks.length && !hidden">
       <Task
@@ -60,6 +56,10 @@ let hidden = ref(false);
 let tasks = completed ? taskList.completedTasks : taskList.incompletedTasks;
 const filteredTasks = computed(() => {
   return tasks.filter((task) => (task.tag === selectedTag.value || selectedTag.value === 'Alle'));
+});
+
+const filteredTags = computed(() => {
+  return tags.filter((tag) => (tasks.filter((task) => (task.tag === tag || tag == 'Alle')).length > 0));
 });
 </script>
 
@@ -97,9 +97,5 @@ ul {
   &-rotate {
     transform: rotate(180deg);
   }
-}
-
-.hide {
-  display: none;
 }
 </style>
