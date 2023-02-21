@@ -4,7 +4,7 @@
       class="inline"
       @click="hidden = !hidden"
     >
-      <h3 :class="{'reset-margin': hidden}"> {{ completed ? 'Abgeschlossen' : 'Offen' }} ({{ filteredTasks.length }})
+      <h3 :class="{'reset-margin': hidden}"> {{ completed ? 'Abgeschlossen' : 'Offen' }} ({{ tasks.length }})
       </h3>
       <img
         class="arrow"
@@ -17,13 +17,18 @@
       class="button-tab"
       v-if="!hidden"
     >
+    <div
+      v-for="tag of tags"
+      :class="{'hide': !tasks.filter((task) => (task.tag === tag || tag === 'Alle')).length}"
+    >
       <Tag
-        v-for="tag of tags"
         @click="selectedTag = tag"
         :tag="tag"
         :selected-tag="selectedTag"
         :completed="completed"
+        :amount-of-tasks="tasks.filter((task) => (task.tag === tag || tag === 'Alle')).length"
       />
+    </div>
     </div>
     <ul v-if="filteredTasks.length && !hidden">
       <Task
@@ -41,21 +46,20 @@ import Task from "./Task.vue";
 import Tag from "./Tag.vue";
 import { useTaskStore } from "../../store/TaskStore.js";
 
-let taskList = useTaskStore();
-let tags = taskList.tags;
-let tasks = taskList.tasks;
-
 const { completed } = defineProps({
   completed: {
     type: Boolean,
     default: true,
   },
 });
+let taskList = useTaskStore();
+let tags = taskList.tags;
 let selectedTag = ref("Alle");
 let hidden = ref(false);
 
+let tasks = completed ? taskList.completedTasks : taskList.incompletedTasks;
 const filteredTasks = computed(() => {
-  return tasks.filter((task) => task.completed == completed && (task.tag === selectedTag.value || selectedTag.value === 'Alle'));
+  return tasks.filter((task) => (task.tag === selectedTag.value || selectedTag.value === 'Alle'));
 });
 </script>
 
@@ -93,5 +97,9 @@ ul {
   &-rotate {
     transform: rotate(180deg);
   }
+}
+
+.hide {
+  display: none;
 }
 </style>

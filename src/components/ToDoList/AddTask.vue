@@ -30,7 +30,7 @@
             disabled
             selected
           > Kategorie wählen </option>
-          <option v-for="tag in taskList.tags"> {{ tag }} </option>
+          <option v-for="tag in taskList.tags.slice(1)"> {{ tag }} </option>
         </select>
       </div>
       <button class="task-add"> Task hinzufügen</button>
@@ -59,7 +59,8 @@ let taskList = useTaskStore();
 let hidden = ref(false);
 
 function createTask() {
-  const taskNameAlreadyExists = taskList.tasks.find((task) => task.name == taskList.task);
+  let taskNameAlreadyExists = taskList.incompletedTasks.find((task) => task.name == taskList.task);
+  taskNameAlreadyExists = taskNameAlreadyExists ? taskNameAlreadyExists : taskList.completedTasks.find((task) => task.name == taskList.task);
   if (taskNameAlreadyExists) {
     flash("Task nicht hinzugefügt", "Du hast bereits einen Task mit identischen Namen!", "warning");
     return;

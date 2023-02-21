@@ -1,16 +1,26 @@
 <template>
   <button
     class="tag-button"
-    v-if="!taskList.emptyTaskList(tag, completed)"
     :class="{ 'tag--highlight': selectedTag == tag }"
-> {{ tag }} ({{ taskList.tasksLength(completed, tag) }})</button>
+> {{ tag }} {{ tag != 'Alle' ? "(" + amountOfTasks + ")" : '' }}</button>
 </template>
 
 <script setup>
-import { useTaskStore } from "../../store/TaskStore.js";
-let taskList = useTaskStore();
-
-const { tag, completed, selectedTag } = defineProps(['tag', 'completed', 'selectedTag']);
+const { tag, completed, selectedTag, amountOfTasks } = defineProps({
+  tag: {
+    type: String,
+  },
+  completed: {
+    type: Boolean,
+    default: true,
+  },
+  selectedTag: {
+    type: String,
+  },
+  amountOfTasks: {
+    type: Number,
+  },
+});
 </script>
 
 <style scoped lang="scss">

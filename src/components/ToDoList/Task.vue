@@ -23,7 +23,7 @@
           class="task-options"
         > ... </button>
         <button
-          @click="taskList.remove(task)"
+          @click="taskList.remove(task, completed)"
           class="task-remove-button"
         > x </button>
       </div>
