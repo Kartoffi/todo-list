@@ -8,7 +8,8 @@ export let useTaskStore = defineStore('taskList', {
       tags: JSON.parse(localStorage.getItem('tags')) == null ? ["Alle"] : JSON.parse(localStorage.getItem('tags')),
       task: '',
       tag: '',
-      newTag: ''
+      newTag: '',
+      idCounter: localStorage.getItem('idCounter') == null ? 0 : localStorage.getItem('idCounter'),
     };
   },
 
@@ -24,9 +25,11 @@ export let useTaskStore = defineStore('taskList', {
 
       this.incompletedTasks.push({
         name: this.task,
-        id: this.incompletedTasks.length+1,
+        id: this.idCounter+1,
         tag: this.tag,
       });
+      this.idCounter++;
+      localStorage.setItem('idCounter', this.idCounter);
       localStorage.setItem('incompletedTasks', JSON.stringify(this.incompletedTasks));
       for (let tag in this.tags) {
         if (this.tags[tag] == this.tag) {
@@ -45,6 +48,7 @@ export let useTaskStore = defineStore('taskList', {
     },
 
     changeState(task) {
+      console.log(task);
       for (let i = 0; i < this.incompletedTasks.length; i++) {
         if (this.incompletedTasks[i].name == task.name) {
           this.incompletedTasks.splice(i, 1);
@@ -52,7 +56,7 @@ export let useTaskStore = defineStore('taskList', {
       }
       this.completedTasks.push({
         name: task.name,
-        id: this.completedTasks.length+1,
+        id: task.id,
         tag: task.tag,
       });
       localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));

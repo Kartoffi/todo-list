@@ -10,12 +10,15 @@
   <div>
     <li>
       <div class="task-group">
-        <input
-          type="checkbox"
-          class="check-box"
+        <form
           @click="taskList.changeState(task)"
-          v-if="!completed"
         >
+          <input
+            type="checkbox"
+            class="check-box"
+            v-if="!completed"
+          >
+        </form>
         <label :class="{ 'task--completed': completed }">
           {{ task.name }}
         </label>
