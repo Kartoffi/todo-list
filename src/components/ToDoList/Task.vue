@@ -1,9 +1,12 @@
 <template>
-  <TaskModal
-    :show="showModal"
-    @close="showModal = false"
-    :task="task"
-  />
+  <Teleport to="body">
+    <TaskModal
+      :show="showModal"
+      @close="showModal = false"
+      :task="task"
+      :completed="completed"
+    />
+  </Teleport>
   <div>
     <li>
       <div class="task-group">
@@ -37,7 +40,10 @@ import { useTaskStore } from "../../store/TaskStore.js";
 import TaskModal from './TaskModal.vue';
 let taskList = useTaskStore();
 let showModal = ref(false);
-const { task, completed } = defineProps(['task', 'completed']);
+defineProps({
+  task: Object,
+  completed: Boolean,
+});
 </script>
 
 <style scoped lang="scss">
@@ -95,13 +101,12 @@ li {
   padding: 1rem;
   border: 1px solid $list-item-color;
   margin: 0.5rem 0rem;
-  cursor: pointer;
 
   &:first-of-type {
     margin-top: 0;
   }
 
-  >* {
+  & * {
     cursor: pointer;
   }
 

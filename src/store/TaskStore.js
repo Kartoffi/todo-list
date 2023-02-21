@@ -89,39 +89,6 @@ export let useTaskStore = defineStore('taskList', {
       }
       localStorage.setItem('tags', JSON.stringify(this.tags));
     },
-
-    // tasksLength(completed, tag) {
-    //   tag = tag == 'Alle' ? null : tag;
-    //   let counter = 0;
-    //   let taskCounter = {
-    //     all: 0,
-    //     completed: 0,
-    //     incompleted: 0,
-    //   };
-    //   for (let i = 0; i < this.tasks.length; i++) {
-    //     if (this.tasks[i].tag == tag || tag == null) {
-    //       taskCounter.all = taskCounter.all+1;
-    //     }
-    //     if ((this.tasks[i].tag == tag || tag == null) && !this.tasks[i].completed) {
-    //       taskCounter.incompleted++;
-    //     }
-    //     if ((this.tasks[i].tag == tag || tag == null) && this.tasks[i].completed) {
-    //       taskCounter.completed++;
-    //     }
-    //   }
-    //   counter = completed == null ? taskCounter.all : (completed ? taskCounter.completed : taskCounter.incompleted);
-    //   return counter;
-    // },
-
-    // empty(tag, empty) {
-    //   let listNotEmpty = true;
-    //   for (let i = 0; i < this.tasks.length; i++) {
-    //     if ((this.tasks[i].tag == tag || tag == 'Alle') && this.tasks[i].completed == empty) {
-    //       listNotEmpty = false;
-    //     }
-    //   }
-    //   return listNotEmpty;
-    // },
   },
 
   getters: {

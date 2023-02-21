@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-const { tag, completed, selectedTag, amountOfTasks } = defineProps({
+defineProps({
   tag: {
     type: String,
   },
