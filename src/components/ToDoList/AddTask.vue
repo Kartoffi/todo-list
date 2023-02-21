@@ -1,6 +1,20 @@
 <template>
   <main>
-    <h3 :class="{ 'reset-margin' : hidden }"> Neuen Task erstellen </h3>
+    <div
+      class="inline-dropdown"
+      :class="{ 'reset-margin' : hidden }"
+      @click="hidden = !hidden"
+    >
+      <h3> Neuen Task erstellen
+      </h3>
+      <img
+        class="arrow"
+        src="../../icons/arrow.png"
+        alt=""
+        :class="{'arrow-rotate': hidden}"
+      >
+    </div>
+    <!-- <h3 :class="{ 'reset-margin' : hidden }"> Neuen Task erstellen </h3> -->
     <form
       @submit.prevent="createTask"
       v-if="!hidden"
@@ -11,7 +25,7 @@
         placeholder="Task (bspw. putzen)"
         class="task-input"
       >
-      <div class="inline">
+      <div class="inline-default">
         <input
           type="text"
           v-model="taskList.newTag"
@@ -35,17 +49,6 @@
       </div>
       <button class="task-add"> Task hinzufügen</button>
     </form>
-    <div
-      class="arrow-background"
-      @click="hidden = !hidden"
-    >
-      <img
-        class="arrow"
-        src="../../icons/arrow.png"
-        alt=""
-        :class="{'arrow-rotate' : hidden}"
-      >
-    </div>
 </main>
 </template>
 
@@ -70,22 +73,50 @@ function createTask() {
 </script>
 
 <style scoped lang="scss">
-h3 {
-  margin: 0 0 1rem 0;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  border: 1px solid #509b00;
+  padding: 1rem;
 }
 
-.reset-margin {
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+h3 {
   margin: 0;
 }
 
 .inline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  & p {
-    margin: 0 0.5rem;
+  &-default {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    & p {
+      margin: 0 0.5rem;
+    }
   }
+
+  &-dropdown {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+}
+
+.reset-margin {
+  margin-bottom: 0;
 }
 
 .task {
@@ -121,37 +152,14 @@ h3 {
   background-color: rgb(241, 241, 241);
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 1rem;
-  transition: all 0.2s ease;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 2rem 0;
-  border: 1px solid #509b00;
-  padding: 1rem;
-}
-
 .arrow {
-  width: 25px;
+  width: 14px;
   height: auto;
-  margin: 1rem 0 0 0;
+  margin: 0 0 0 0.5rem;
   transition: all 0.2s ease;
+  align-self: center;
   &-rotate {
     transform: rotate(180deg);
-  }
-  &-background {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    cursor: pointer;
   }
 }
 </style>
