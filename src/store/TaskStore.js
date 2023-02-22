@@ -25,7 +25,7 @@ export let useTaskStore = defineStore('taskList', {
 
       this.incompletedTasks.push({
         name: this.task,
-        id: this.idCounter+1,
+        id: this.idCounter,
         tag: this.tag,
       });
       this.idCounter++;
