@@ -10,15 +10,12 @@
   <div>
     <li>
       <div class="task-group">
-        <form
+        <button
           @click="taskList.changeState(task)"
-        >
-          <input
-            type="checkbox"
-            class="check-box"
-            v-if="!completed"
-          >
-        </form>
+          class="check-box"
+          v-if="!completed">
+
+        </button>
         <label :class="{ 'task--completed': completed }">
           {{ task.name }}
         </label>
@@ -67,6 +64,7 @@ $list-item-color: #509B00;
   &-group {
     display: flex;
     width: unset;
+    align-items: center;
   }
 
   &-remove-button {
